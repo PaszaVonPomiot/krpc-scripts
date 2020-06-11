@@ -5,6 +5,7 @@ import socket
 import curses
 import krpc
 import time
+import curses_terminal as ct
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -54,5 +55,6 @@ def connect_and_loop(name):
         return main_loop(c)
 
 
-if __name__ == '__main__':
-    connect_and_loop('Flight Controller')
+# if __name__ == '__main__':
+#     curses.wrapper(ct.terminal)
+# connect_and_loop('Flight Controller')
