@@ -8,6 +8,8 @@ verify_ssl = true
 [packages]
 krpc = "*"
 ipython = "*"
+windows-curses = "*"
+psutil = "*"
 
 [requires]
 python_version = "3.6"

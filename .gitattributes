@@ -12,7 +12,7 @@
 *.pyx    text diff=python
 *.pyz    text diff=python
 *.pyi    text diff=python
-Pipfile  text diff=python
+
 
 # Binary files
 # ============
