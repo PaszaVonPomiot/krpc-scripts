@@ -1,2 +1,2 @@
 # krpc-scripts
-Scripts for KRPC
+Terminal based Python scripts for KRPC
