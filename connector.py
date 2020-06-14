@@ -1,11 +1,11 @@
-# Flight controller
+#controller
 import logging
 import psutil
 import socket
 import curses
 import krpc
 import time
-import curses_terminal as ct
+
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -31,7 +31,7 @@ def wait_for_flight(c) -> None:
         time.sleep(3)
 
 def main_loop(c) -> None:
-    wait_for_flight(c)
+    
     while True:
         bodies = c.space_center.bodies
         vessel = c.space_center.active_vessel
@@ -40,21 +40,28 @@ def main_loop(c) -> None:
     return None
 
 
-def connect_and_loop(name):
+def connect_and_run(func, params):
     ''' Make connection and keep it until main_loop exits '''
+    name = func.__name__
     if not ksp_running():
         raise Exception(f'KSP is not running')
     if not krpc_running('127.0.0.1', 50000):
         raise Exception(f'KRPC is not running')
     log.info('Connecting to KRPC')
     with krpc.connect(name) as c:
-        already_connected = sum([ True if name in client else False for client  in c.krpc.clients ]) > 1
+        already_connected = sum([ True if name in client else False for client in c.krpc.clients ]) > 1
         if already_connected:
             c.close()
             raise Exception(f'Client {name} already connected')
-        return main_loop(c)
+        wait_for_flight(c)
+        return func(c, params)
+
+
+
+
+
 
 
 # if __name__ == '__main__':
 #     curses.wrapper(ct.terminal)
-# connect_and_loop('Flight Controller')
+    # connect_and_run('KSP Command Center')

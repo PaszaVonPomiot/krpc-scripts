@@ -1,5 +1,8 @@
+__version__ = '0.0.1'
+
 import curses
-import fc
+from connector import connect_and_run
+from flight_scripts import *
 import logging
 
 
@@ -18,25 +21,25 @@ def vessel_inspector():
     pass
 
 
-def flight_script_1():  # import this
-    pass
 
 
 main_menu= [
-    {'idx': 0, 'function': flight_controller},
-    {'idx': 1, 'function': flight_monitor},
-    {'idx': 2, 'function': vessel_inspector}
+    {'idx': 0, 'function': flight_controller, 'type': 'menu'},
+    {'idx': 1, 'function': flight_monitor, 'type': 'menu'},
+    {'idx': 2, 'function': vessel_inspector, 'type': 'menu'}
     ]
 
 flight_controller_menu = [
-    {'idx': 0, 'function': flight_script_1},
+    {'idx': 0, 'function': flight_script_1, 'type': 'script', 'params': {
+        'apoapsis': 80000,
+    }},
     {'idx': 1, 'function': flight_script_1},
     {'idx': 2, 'function': flight_script_1}
 ]        
 
 
 
-def print_menu(stdscr, menu, selected_row_idx: int) -> None:
+def print_menu(stdscr, menu: list, selected_row_idx: int) -> None:
     stdscr.clear()
     stdscr.box()
     h, w = stdscr.getmaxyx()
@@ -54,7 +57,7 @@ def print_menu(stdscr, menu, selected_row_idx: int) -> None:
 
 
 
-def terminal(stdscr, menu):
+def terminal(stdscr, menu: list) -> None:
     ''' Main terminal screen flow '''
 
     def menu_loop():
@@ -69,8 +72,13 @@ def terminal(stdscr, menu):
                 current_row_idx += 1
             elif key == curses.KEY_ENTER or key in [10, 13]:
                 # return function for selected item
-                selected_function = [ row['function'] for row in menu if row['idx']==current_row_idx ][0]  
-                selected_function(stdscr)
+                selected_item = [ row for row in menu if row['idx']==current_row_idx ][0]
+                func = selected_item['function']
+                if selected_item['type'] is 'script':
+                    params = selected_item['params']
+                    connect_and_run(func, params)
+                if selected_item['type'] is 'menu':
+                    func(stdscr)
             elif key == 27:  # ESC
                 break
 
