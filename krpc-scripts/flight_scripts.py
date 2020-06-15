@@ -1,8 +1,6 @@
 import time
 
-def flight_script_1(c, params):
-    print(params)
-    conn = c
+def launch_to_orbit(c, params):
     vessel = conn.space_center.active_vessel
     vessel.auto_pilot.target_pitch_and_heading(90, 90)
     vessel.auto_pilot.engage()

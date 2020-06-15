@@ -28,11 +28,11 @@ main_menu= [
     ]
 
 flight_controller_menu = [
-    {'idx': 0, 'function': flight_script_1, 'type': 'script', 'params': {
+    {'idx': 0, 'function': launch_to_orbit, 'type': 'script', 'params': {
         'apoapsis': 80000,
     }},
-    {'idx': 1, 'function': flight_script_1},
-    {'idx': 2, 'function': flight_script_1}
+    # {'idx': 1, 'function': flight_script_1},
+    # {'idx': 2, 'function': flight_script_1}
 ]        
 
 

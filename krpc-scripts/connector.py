@@ -48,7 +48,7 @@ def connect_and_run(func, params):
     if not krpc_running('127.0.0.1', 50000):
         raise Exception(f'KRPC is not running')
     log.info('Connecting to KRPC')
-    with krpc.connect(name) as c:
+    with krpc.connect(name) as c:  # krpc.client.Client object
         already_connected = sum([ True if name in client else False for client in c.krpc.clients ]) > 1
         if already_connected:
             c.close()
